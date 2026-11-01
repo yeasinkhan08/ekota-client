@@ -1,12 +1,54 @@
 "use client";
 
 import Link from "next/link";
-import { HandHeart, Menu, X } from "lucide-react";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  HandHeart,
+  Menu,
+  X,
+  ArrowUpRight,
+  UserRound,
+  CalendarPlus,
+  ClipboardList,
+  Users,
+  LogOut,
+  ChevronDown,
+} from "lucide-react";
+
+import { authClient } from "@/lib/auth-client";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const router = useRouter();
+
+  // Wait until the component mounts in the browser
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Get current user's session
+  const { data: session, isPending } = authClient.useSession();
+
+  const user = session?.user;
+
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
+
+      setProfileOpen(false);
+      setIsOpen(false);
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -14,67 +56,271 @@ const Navbar = () => {
     { name: "About", href: "/about" },
   ];
 
+  const userLinks = [
+    {
+      name: "Create Event",
+      href: "/create-event",
+      icon: CalendarPlus,
+    },
+    {
+      name: "Manage Events",
+      href: "/manage-events",
+      icon: ClipboardList,
+    },
+    {
+      name: "Joined Events",
+      href: "/joined-events",
+      icon: Users,
+    },
+  ];
+
+  const closeMenus = () => {
+    setIsOpen(false);
+    setProfileOpen(false);
+  };
+
+  // Show loading state before hydration finishes
+  const checkingSession = !mounted || isPending;
+
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+    <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-xl">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="rounded-xl bg-green-800 p-2 text-white">
-            <HandHeart size={23} />
+        <Link
+          href="/"
+          onClick={closeMenus}
+          className="group flex items-center gap-2.5"
+        >
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-800 text-white shadow-md shadow-green-900/15 transition duration-300 group-hover:rotate-[-6deg] group-hover:scale-105">
+            <HandHeart size={25} />
           </div>
 
-          <span className="text-2xl font-bold text-green-900">Ekota</span>
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight text-green-950">
+              Ekota<span className="text-green-700">.</span>
+            </h1>
+
+            <p className="text-[10px] font-medium tracking-[0.15em] text-gray-500">
+              TOGETHER WE MAKE A DIFFERENCE
+            </p>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-9 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-gray-700 transition hover:text-green-800"
+              className="text-sm font-semibold text-gray-600 transition hover:text-green-800"
             >
               {link.name}
             </Link>
           ))}
         </div>
 
-        {/* Login Button */}
-        <div className="hidden md:block">
-          <Button asChild className="bg-green-800 hover:bg-green-900">
-            <Link href="/login">Login</Link>
-          </Button>
+        {/* Desktop Authentication */}
+        <div className="hidden items-center gap-3 md:flex">
+          {checkingSession ? (
+            <div className="h-10 w-24 animate-pulse rounded-full bg-gray-100" />
+          ) : user ? (
+            <div className="relative">
+              {/* Profile Button */}
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="flex items-center gap-2 rounded-full border border-gray-200 p-1.5 pr-3 transition hover:bg-green-50"
+              >
+                {user.image ? (
+                  <img
+                    src={user.image}
+                    alt={user.name || "User"}
+                    className="h-9 w-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-800">
+                    <UserRound size={19} />
+                  </div>
+                )}
+
+                <span className="max-w-28 truncate text-sm font-semibold text-gray-800">
+                  {user.name}
+                </span>
+
+                <ChevronDown
+                  size={16}
+                  className={`text-gray-500 transition ${
+                    profileOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Profile Dropdown */}
+              {profileOpen && (
+                <div className="absolute right-0 top-full mt-3 w-64 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl">
+                  <div className="border-b bg-green-50/70 px-4 py-4">
+                    <p className="truncate font-semibold text-gray-900">
+                      {user.name}
+                    </p>
+
+                    <p className="truncate text-xs text-gray-500">
+                      {user.email}
+                    </p>
+                  </div>
+
+                  <div className="p-2">
+                    {userLinks.map((link) => {
+                      const Icon = link.icon;
+
+                      return (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          onClick={closeMenus}
+                          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-700 transition hover:bg-green-50 hover:text-green-800"
+                        >
+                          <Icon size={17} />
+                          {link.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  <div className="border-t p-2">
+                    <button
+                      onClick={handleLogout}
+                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                    >
+                      <LogOut size={17} />
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="rounded-full px-5 py-2.5 text-sm font-semibold text-green-900 transition hover:bg-green-50"
+              >
+                Login
+              </Link>
+
+              <Link
+                href="/register"
+                className="group flex items-center gap-2 rounded-full bg-green-800 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-green-900"
+              >
+                Get Started
+                <ArrowUpRight size={16} />
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-800 transition hover:bg-green-50 md:hidden"
           aria-label="Toggle navigation"
           aria-expanded={isOpen}
         >
-          {isOpen ? <X size={25} /> : <Menu size={25} />}
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="border-t bg-white px-5 py-5 md:hidden">
-          <div className="flex flex-col gap-5">
+        <div className="border-t border-gray-100 bg-white px-5 py-6 shadow-lg md:hidden">
+          <div className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="text-sm font-medium text-gray-700"
+                onClick={closeMenus}
+                className="rounded-lg px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-green-50 hover:text-green-800"
               >
                 {link.name}
               </Link>
             ))}
 
-            <Button asChild className="bg-green-800 hover:bg-green-900">
-              <Link href="/login">Login</Link>
-            </Button>
+            <div className="mt-3 border-t border-gray-100 pt-5">
+              {checkingSession ? (
+                <p className="text-center text-sm text-gray-500">
+                  Checking session...
+                </p>
+              ) : user ? (
+                <>
+                  {/* Mobile User Information */}
+                  <div className="mb-4 flex items-center gap-3 rounded-xl bg-green-50 p-3">
+                    {user.image ? (
+                      <img
+                        src={user.image}
+                        alt={user.name || "User"}
+                        className="h-10 w-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-800">
+                        <UserRound size={20} />
+                      </div>
+                    )}
+
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold text-gray-900">
+                        {user.name}
+                      </p>
+
+                      <p className="truncate text-xs text-gray-500">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Mobile User Links */}
+                  {userLinks.map((link) => {
+                    const Icon = link.icon;
+
+                    return (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        onClick={closeMenus}
+                        className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-gray-700 hover:bg-green-50"
+                      >
+                        <Icon size={18} />
+                        {link.name}
+                      </Link>
+                    );
+                  })}
+
+                  {/* Mobile Logout */}
+                  <button
+                    onClick={handleLogout}
+                    className="mt-2 flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold text-red-600 hover:bg-red-50"
+                  >
+                    <LogOut size={18} />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  <Link
+                    href="/login"
+                    onClick={closeMenus}
+                    className="rounded-full border border-green-800 py-3 text-center text-sm font-semibold text-green-900"
+                  >
+                    Login
+                  </Link>
+
+                  <Link
+                    href="/register"
+                    onClick={closeMenus}
+                    className="rounded-full bg-green-800 py-3 text-center text-sm font-semibold text-white"
+                  >
+                    Register
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
