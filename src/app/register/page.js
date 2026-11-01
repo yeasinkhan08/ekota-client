@@ -61,6 +61,12 @@ export default function RegisterPage() {
       setLoading(false);
     }
   };
+  const handleGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
 
   return (
     <section className="flex min-h-[80vh] items-center justify-center px-5 py-16">

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -131,9 +132,11 @@ const Navbar = () => {
                 className="flex items-center gap-2 rounded-full border border-gray-200 p-1.5 pr-3 transition hover:bg-green-50"
               >
                 {user.image ? (
-                  <img
+                  <Image
                     src={user.image}
                     alt={user.name || "User"}
+                    width={30}
+                    height={30}
                     className="h-9 w-9 rounded-full object-cover"
                   />
                 ) : (
@@ -253,7 +256,7 @@ const Navbar = () => {
                   {/* Mobile User Information */}
                   <div className="mb-4 flex items-center gap-3 rounded-xl bg-green-50 p-3">
                     {user.image ? (
-                      <img
+                      <Image
                         src={user.image}
                         alt={user.name || "User"}
                         className="h-10 w-10 rounded-full object-cover"
