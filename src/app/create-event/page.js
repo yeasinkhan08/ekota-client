@@ -1,5 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import API_URL from "@/lib/api";
+import { toast } from "sonner";
+
 import {
   CalendarDays,
   MapPin,
@@ -16,10 +22,53 @@ import {
 } from "lucide-react";
 
 export default function CreateEventPage() {
-  const handleSubmit = (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Event form submitted");
+    // Collect form data before the asynchronous operations
+    const formData = new FormData(e.currentTarget);
+    const eventData = Object.fromEntries(formData.entries());
+
+    try {
+      setIsLoading(true);
+
+      // Step 1: Get JWT token from Better Auth
+      const { data, error } = await authClient.token();
+
+      if (error || !data?.token) {
+        throw new Error("Authentication failed. Please login again.");
+      }
+
+      // Step 2: Send event data to Express backend
+      const response = await fetch(`${API_URL}/api/events`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.token}`,
+        },
+        body: JSON.stringify(eventData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to create event");
+      }
+
+      // Step 3: Show success notification
+      toast.success("Event created successfully!");
+
+      // Step 4: Redirect to Events page
+      router.push("/events");
+    } catch (error) {
+      console.error("Create event error:", error);
+      toast.error(error.message || "Something went wrong!");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -134,6 +183,7 @@ export default function CreateEventPage() {
                   required
                   className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100"
                 />
+
                 <p className="mt-2 text-xs text-gray-400">
                   Add a high-quality image URL to represent your event.
                 </p>
@@ -175,13 +225,17 @@ export default function CreateEventPage() {
               <div className="border-t border-gray-100 pt-6">
                 <button
                   type="submit"
-                  className="group flex w-full items-center justify-center gap-2 rounded-xl bg-green-800 px-6 py-4 text-sm font-bold text-white shadow-lg shadow-green-900/15 transition hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-xl"
+                  disabled={isLoading}
+                  className="group flex w-full items-center justify-center gap-2 rounded-xl bg-green-800 px-6 py-4 text-sm font-bold text-white shadow-lg shadow-green-900/15 transition hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Publish Your Event
-                  <ArrowRight
-                    size={18}
-                    className="transition group-hover:translate-x-1"
-                  />
+                  {isLoading ? "Publishing..." : "Publish Your Event"}
+
+                  {!isLoading && (
+                    <ArrowRight
+                      size={18}
+                      className="transition group-hover:translate-x-1"
+                    />
+                  )}
                 </button>
 
                 <p className="mt-3 text-center text-xs text-gray-400">
@@ -222,9 +276,11 @@ export default function CreateEventPage() {
                     <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#102A22] bg-green-200 text-green-900">
                       <Users size={17} />
                     </div>
+
                     <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#102A22] bg-yellow-200 text-yellow-900">
                       <Heart size={16} />
                     </div>
+
                     <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#102A22] bg-white text-green-900">
                       <Leaf size={17} />
                     </div>
@@ -248,6 +304,7 @@ export default function CreateEventPage() {
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700">
                     <Type size={17} />
                   </div>
+
                   <div>
                     <p className="text-sm font-semibold text-gray-800">
                       Choose a clear title
@@ -262,6 +319,7 @@ export default function CreateEventPage() {
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700">
                     <ImagePlus size={17} />
                   </div>
+
                   <div>
                     <p className="text-sm font-semibold text-gray-800">
                       Use a quality image
@@ -276,6 +334,7 @@ export default function CreateEventPage() {
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700">
                     <CalendarDays size={17} />
                   </div>
+
                   <div>
                     <p className="text-sm font-semibold text-gray-800">
                       Set a future date
