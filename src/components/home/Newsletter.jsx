@@ -1,3 +1,4 @@
+"use client";
 import { ArrowRight, Mail, HeartHandshake } from "lucide-react";
 
 export default function Newsletter() {
