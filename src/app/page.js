@@ -1,6 +1,7 @@
 import Hero from "@/components/shared/Hero";
 import Features from "@/components/home/Features";
 import RecentEvents from "@/components/home/RecentEvents";
+import Gallery from "@/components/home/Gallery";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <Features />
       <RecentEvents />
+      <Gallery />
     </>
   );
 }
