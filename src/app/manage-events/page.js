@@ -184,21 +184,21 @@ export default function ManageEventsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F8FA] px-4 py-10 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F7F8FA] px-4 py-10 text-gray-900 transition-colors dark:bg-gray-950 dark:text-gray-100 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-700">
+            <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-400">
               <CalendarCheck size={17} />
               EVENT MANAGEMENT
             </div>
 
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               Manage your events
             </h1>
 
-            <p className="mt-3 max-w-xl text-sm leading-6 text-gray-500 sm:text-base">
+            <p className="mt-3 max-w-xl text-sm leading-6 text-gray-500 dark:text-gray-400 sm:text-base">
               Keep your community activities organized. Update event details or
               remove events you no longer need.
             </p>
@@ -215,26 +215,30 @@ export default function ManageEventsPage() {
 
         {/* Statistics */}
         <div className="mb-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Total events created</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Total events created
+                </p>
+                <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
                   {events.length}
                 </p>
               </div>
 
-              <div className="rounded-xl bg-blue-50 p-3 text-blue-700">
+              <div className="rounded-xl bg-blue-50 p-3 text-blue-700 dark:bg-blue-950 dark:text-blue-400">
                 <CalendarDays size={24} />
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Upcoming events</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Upcoming events
+                </p>
+                <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
                   {
                     events.filter(
                       (event) =>
@@ -245,7 +249,7 @@ export default function ManageEventsPage() {
                 </p>
               </div>
 
-              <div className="rounded-xl bg-green-50 p-3 text-green-700">
+              <div className="rounded-xl bg-green-50 p-3 text-green-700 dark:bg-green-950 dark:text-green-400">
                 <Users size={24} />
               </div>
             </div>
@@ -255,8 +259,10 @@ export default function ManageEventsPage() {
         {/* Search and list header */}
         <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Your events</h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              Your events
+            </h2>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               {events.length} events in your collection
             </p>
           </div>
@@ -272,7 +278,7 @@ export default function ManageEventsPage() {
               placeholder="Search your events..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-blue-400 dark:focus:ring-blue-950"
             />
           </div>
         </div>
@@ -281,22 +287,27 @@ export default function ManageEventsPage() {
         {loading ? (
           <div className="flex min-h-64 items-center justify-center">
             <div className="flex flex-col items-center gap-3">
-              <Loader2 className="animate-spin text-blue-700" size={35} />
-              <p className="text-sm text-gray-500">Loading your events...</p>
+              <Loader2
+                className="animate-spin text-blue-700 dark:text-blue-400"
+                size={35}
+              />
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Loading your events...
+              </p>
             </div>
           </div>
         ) : filteredEvents.length === 0 ? (
           /* Empty state */
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-5 py-16 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+          <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-5 py-16 text-center dark:border-gray-700 dark:bg-gray-900">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400">
               <CalendarDays size={30} />
             </div>
 
-            <h3 className="text-xl font-bold text-gray-900">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
               {search ? "No matching events" : "No events created yet"}
             </h3>
 
-            <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500 dark:text-gray-400">
               {search
                 ? "Try searching with another event title."
                 : "Start bringing your community together by creating your first event."}
@@ -318,10 +329,10 @@ export default function ManageEventsPage() {
             {filteredEvents.map((event) => (
               <div
                 key={event._id}
-                className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900"
               >
                 {/* Thumbnail */}
-                <div className="relative h-52 overflow-hidden bg-gray-100">
+                <div className="relative h-52 overflow-hidden bg-gray-100 dark:bg-gray-800">
                   {event.thumbnailUrl ? (
                     <Image
                       src={event.thumbnailUrl}
@@ -331,34 +342,40 @@ export default function ManageEventsPage() {
                       className="object-cover transition duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-gray-400">
+                    <div className="flex h-full items-center justify-center text-gray-400 dark:text-gray-500">
                       <ImageIcon size={40} />
                     </div>
                   )}
 
-                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#1E3A5F] shadow-sm">
+                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#1E3A5F] shadow-sm dark:bg-gray-900/95 dark:text-blue-300">
                     {event.eventType || "Community Event"}
                   </span>
                 </div>
 
                 {/* Card content */}
                 <div className="p-5">
-                  <h3 className="line-clamp-1 text-lg font-bold text-gray-900">
+                  <h3 className="line-clamp-1 text-lg font-bold text-gray-900 dark:text-white">
                     {event.title}
                   </h3>
 
-                  <p className="mt-2 line-clamp-2 min-h-10 text-sm leading-5 text-gray-500">
+                  <p className="mt-2 line-clamp-2 min-h-10 text-sm leading-5 text-gray-500 dark:text-gray-400">
                     {event.description || "No description provided."}
                   </p>
 
-                  <div className="mt-5 space-y-3 border-t border-gray-100 pt-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <CalendarDays size={16} className="text-blue-700" />
+                  <div className="mt-5 space-y-3 border-t border-gray-100 pt-4 dark:border-gray-800">
+                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                      <CalendarDays
+                        size={16}
+                        className="text-blue-700 dark:text-blue-400"
+                      />
                       {formatDate(event.eventDate)}
                     </div>
 
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <MapPin size={16} className="text-blue-700" />
+                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                      <MapPin
+                        size={16}
+                        className="text-blue-700 dark:text-blue-400"
+                      />
                       <span className="line-clamp-1">
                         {event.location || "Location not specified"}
                       </span>
@@ -369,7 +386,7 @@ export default function ManageEventsPage() {
                   <div className="mt-5 grid grid-cols-2 gap-3">
                     <button
                       onClick={() => setEditingEvent({ ...event })}
-                      className="flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 py-2.5 text-sm font-semibold text-blue-800 transition hover:bg-blue-100"
+                      className="flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 py-2.5 text-sm font-semibold text-blue-800 transition hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300 dark:hover:bg-blue-900"
                     >
                       <Pencil size={16} />
                       Edit
@@ -377,7 +394,7 @@ export default function ManageEventsPage() {
 
                     <button
                       onClick={() => setDeletingEvent(event)}
-                      className="flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                      className="flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100 dark:border-red-900 dark:bg-red-950 dark:text-red-400 dark:hover:bg-red-900"
                     >
                       <Trash2 size={16} />
                       Delete
@@ -393,11 +410,13 @@ export default function ManageEventsPage() {
       {/* Edit Modal */}
       {editingEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/50 p-4 backdrop-blur-sm">
-          <div className="my-auto w-full max-w-xl rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+          <div className="my-auto w-full max-w-xl rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-900 sm:p-8">
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-bold text-gray-900">Edit Event</h2>
-                <p className="mt-1 text-sm text-gray-500">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  Edit Event
+                </h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                   Update your event information.
                 </p>
               </div>
@@ -405,7 +424,7 @@ export default function ManageEventsPage() {
               <button
                 type="button"
                 onClick={() => setEditingEvent(null)}
-                className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100"
+                className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
               >
                 <X size={20} />
               </button>
@@ -413,7 +432,7 @@ export default function ManageEventsPage() {
 
             <form onSubmit={handleUpdate} className="space-y-4">
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Event Title
                 </label>
                 <input
@@ -425,12 +444,12 @@ export default function ManageEventsPage() {
                       title: e.target.value,
                     })
                   }
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:ring-blue-950"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Description
                 </label>
                 <textarea
@@ -442,12 +461,12 @@ export default function ManageEventsPage() {
                       description: e.target.value,
                     })
                   }
-                  className="w-full resize-none rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:ring-blue-950"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Event Type
                 </label>
                 <input
@@ -458,12 +477,12 @@ export default function ManageEventsPage() {
                       eventType: e.target.value,
                     })
                   }
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:ring-blue-950"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Thumbnail URL
                 </label>
                 <input
@@ -475,12 +494,12 @@ export default function ManageEventsPage() {
                       thumbnailUrl: e.target.value,
                     })
                   }
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:ring-blue-950"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Location
                 </label>
                 <input
@@ -491,12 +510,12 @@ export default function ManageEventsPage() {
                       location: e.target.value,
                     })
                   }
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:ring-blue-950"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Event Date
                 </label>
                 <input
@@ -510,7 +529,7 @@ export default function ManageEventsPage() {
                       eventDate: e.target.value,
                     })
                   }
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:[color-scheme:dark] dark:focus:ring-blue-950"
                 />
               </div>
 
@@ -518,7 +537,7 @@ export default function ManageEventsPage() {
                 <button
                   type="button"
                   onClick={() => setEditingEvent(null)}
-                  className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50"
+                  className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
                 >
                   Cancel
                 </button>
@@ -540,18 +559,18 @@ export default function ManageEventsPage() {
       {/* Delete Confirmation Modal */}
       {deletingEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl bg-white p-7 shadow-2xl">
-            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-600">
+          <div className="w-full max-w-md rounded-2xl bg-white p-7 shadow-2xl dark:bg-gray-900">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400">
               <Trash2 size={26} />
             </div>
 
-            <h2 className="text-center text-xl font-bold text-gray-900">
+            <h2 className="text-center text-xl font-bold text-gray-900 dark:text-white">
               Delete this event?
             </h2>
 
-            <p className="mt-3 text-center text-sm leading-6 text-gray-500">
+            <p className="mt-3 text-center text-sm leading-6 text-gray-500 dark:text-gray-400">
               Are you sure you want to delete{" "}
-              <span className="font-semibold text-gray-800">
+              <span className="font-semibold text-gray-800 dark:text-gray-200">
                 {deletingEvent.title}
               </span>
               ? This action cannot be undone.
@@ -561,7 +580,7 @@ export default function ManageEventsPage() {
               <button
                 onClick={() => setDeletingEvent(null)}
                 disabled={isDeleting}
-                className="rounded-xl border border-gray-200 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50"
+                className="rounded-xl border border-gray-200 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 Cancel
               </button>

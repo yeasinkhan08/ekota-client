@@ -28,21 +28,20 @@ export default function CreateEventPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Collect form data before the asynchronous operations
     const formData = new FormData(e.currentTarget);
     const eventData = Object.fromEntries(formData.entries());
 
     try {
       setIsLoading(true);
 
-      // Step 1: Get JWT token from Better Auth
+      // Get JWT token from Better Auth
       const { data, error } = await authClient.token();
 
       if (error || !data?.token) {
         throw new Error("Authentication failed. Please login again.");
       }
 
-      // Step 2: Send event data to Express backend
+      // Send event data to Express backend
       const response = await fetch(`${API_URL}/api/events`, {
         method: "POST",
         headers: {
@@ -58,10 +57,7 @@ export default function CreateEventPage() {
         throw new Error(result.message || "Failed to create event");
       }
 
-      // Step 3: Show success notification
       toast.success("Event created successfully!");
-
-      // Step 4: Redirect to Events page
       router.push("/events");
     } catch (error) {
       console.error("Create event error:", error);
@@ -72,21 +68,24 @@ export default function CreateEventPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FAF9F6] px-5 py-12 md:py-16">
+    <main className="min-h-screen bg-[#FAF9F6] px-5 py-12 transition-colors dark:bg-gray-950 md:py-16">
       <div className="mx-auto max-w-7xl">
         {/* Page Heading */}
         <div className="mb-10">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-2 text-sm font-semibold text-green-800">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-2 text-sm font-semibold text-green-800 dark:border-green-900 dark:bg-green-950 dark:text-green-300">
             <Sparkles size={16} />
             Make an Impact
           </div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-[#102A22] md:text-5xl">
-            Bring Your <span className="text-green-700">Community</span>
+          <h1 className="text-3xl font-bold tracking-tight text-[#102A22] dark:text-white md:text-5xl">
+            Bring Your{" "}
+            <span className="text-green-700 dark:text-green-400">
+              Community
+            </span>
             <br className="hidden md:block" /> Together.
           </h1>
 
-          <p className="mt-4 max-w-xl text-base leading-7 text-gray-500">
+          <p className="mt-4 max-w-xl text-base leading-7 text-gray-500 dark:text-gray-400">
             Create meaningful events, connect with passionate people, and turn
             small acts into a powerful movement.
           </p>
@@ -95,18 +94,18 @@ export default function CreateEventPage() {
         {/* Main Layout */}
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           {/* Form Card */}
-          <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-9">
+          <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900 md:p-9">
             <div className="mb-8 flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-bold text-gray-900 md:text-2xl">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
                   Event Information
                 </h2>
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                   Fill in the details to publish your event.
                 </p>
               </div>
 
-              <div className="hidden h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-800 sm:flex">
+              <div className="hidden h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-800 dark:bg-green-950 dark:text-green-400 sm:flex">
                 <HandHeart size={25} />
               </div>
             </div>
@@ -114,8 +113,11 @@ export default function CreateEventPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Event Title */}
               <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-                  <Type size={16} className="text-green-700" />
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  <Type
+                    size={16}
+                    className="text-green-700 dark:text-green-400"
+                  />
                   Event Title
                 </label>
 
@@ -124,14 +126,17 @@ export default function CreateEventPage() {
                   name="title"
                   placeholder="Give your event a memorable name"
                   required
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100"
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-green-500 dark:focus:bg-gray-800 dark:focus:ring-green-950"
                 />
               </div>
 
               {/* Description */}
               <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-                  <AlignLeft size={16} className="text-green-700" />
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  <AlignLeft
+                    size={16}
+                    className="text-green-700 dark:text-green-400"
+                  />
                   Event Description
                 </label>
 
@@ -140,14 +145,17 @@ export default function CreateEventPage() {
                   rows="5"
                   placeholder="Describe your event, its purpose, and how people can participate..."
                   required
-                  className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm leading-6 text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100"
+                  className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm leading-6 text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-green-500 dark:focus:bg-gray-800 dark:focus:ring-green-950"
                 />
               </div>
 
               {/* Event Type */}
               <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-                  <Tag size={16} className="text-green-700" />
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  <Tag
+                    size={16}
+                    className="text-green-700 dark:text-green-400"
+                  />
                   Event Category
                 </label>
 
@@ -155,7 +163,7 @@ export default function CreateEventPage() {
                   name="eventType"
                   required
                   defaultValue=""
-                  className="w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-700 outline-none transition focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100"
+                  className="w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-700 outline-none transition focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-green-500 dark:focus:bg-gray-800 dark:focus:ring-green-950"
                 >
                   <option value="" disabled>
                     Choose an event category
@@ -171,8 +179,11 @@ export default function CreateEventPage() {
 
               {/* Thumbnail */}
               <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-                  <ImagePlus size={16} className="text-green-700" />
+                <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  <ImagePlus
+                    size={16}
+                    className="text-green-700 dark:text-green-400"
+                  />
                   Event Cover Image URL
                 </label>
 
@@ -181,10 +192,10 @@ export default function CreateEventPage() {
                   name="thumbnailUrl"
                   placeholder="https://example.com/event-image.jpg"
                   required
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100"
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-green-500 dark:focus:bg-gray-800 dark:focus:ring-green-950"
                 />
 
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
                   Add a high-quality image URL to represent your event.
                 </p>
               </div>
@@ -192,8 +203,11 @@ export default function CreateEventPage() {
               {/* Location and Date */}
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-                    <MapPin size={16} className="text-green-700" />
+                  <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                    <MapPin
+                      size={16}
+                      className="text-green-700 dark:text-green-400"
+                    />
                     Event Location
                   </label>
 
@@ -202,13 +216,16 @@ export default function CreateEventPage() {
                     name="location"
                     placeholder="e.g. Dhaka, Bangladesh"
                     required
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100"
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-green-500 dark:focus:bg-gray-800 dark:focus:ring-green-950"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-                    <CalendarDays size={16} className="text-green-700" />
+                  <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                    <CalendarDays
+                      size={16}
+                      className="text-green-700 dark:text-green-400"
+                    />
                     Event Date
                   </label>
 
@@ -216,13 +233,13 @@ export default function CreateEventPage() {
                     type="date"
                     name="eventDate"
                     required
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-700 outline-none transition focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100"
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-3.5 text-sm text-gray-700 outline-none transition focus:border-green-700 focus:bg-white focus:ring-4 focus:ring-green-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:[color-scheme:dark] dark:focus:border-green-500 dark:focus:bg-gray-800 dark:focus:ring-green-950"
                   />
                 </div>
               </div>
 
               {/* Submit */}
-              <div className="border-t border-gray-100 pt-6">
+              <div className="border-t border-gray-100 pt-6 dark:border-gray-800">
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -238,7 +255,7 @@ export default function CreateEventPage() {
                   )}
                 </button>
 
-                <p className="mt-3 text-center text-xs text-gray-400">
+                <p className="mt-3 text-center text-xs text-gray-400 dark:text-gray-500">
                   Together, we can make a positive difference.
                 </p>
               </div>
@@ -294,52 +311,52 @@ export default function CreateEventPage() {
             </div>
 
             {/* Tips Card */}
-            <div className="rounded-3xl border border-gray-200 bg-white p-6">
-              <h3 className="font-bold text-gray-900">
+            <div className="rounded-3xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+              <h3 className="font-bold text-gray-900 dark:text-white">
                 Tips for a great event
               </h3>
 
               <div className="mt-5 space-y-5">
                 <div className="flex gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400">
                     <Type size={17} />
                   </div>
 
                   <div>
-                    <p className="text-sm font-semibold text-gray-800">
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                       Choose a clear title
                     </p>
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
                       Make it easy for people to understand your event.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400">
                     <ImagePlus size={17} />
                   </div>
 
                   <div>
-                    <p className="text-sm font-semibold text-gray-800">
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                       Use a quality image
                     </p>
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
                       An attractive image helps your event stand out.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400">
                     <CalendarDays size={17} />
                   </div>
 
                   <div>
-                    <p className="text-sm font-semibold text-gray-800">
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                       Set a future date
                     </p>
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
                       Give participants enough time to prepare.
                     </p>
                   </div>
@@ -348,11 +365,13 @@ export default function CreateEventPage() {
             </div>
 
             {/* Quote */}
-            <div className="rounded-2xl border border-green-100 bg-green-50/70 p-5">
-              <p className="text-sm font-medium leading-6 text-green-900">
+            <div className="rounded-2xl border border-green-100 bg-green-50/70 p-5 dark:border-green-900 dark:bg-green-950/50">
+              <p className="text-sm font-medium leading-6 text-green-900 dark:text-green-200">
                 "Alone we can do so little; together we can do so much."
               </p>
-              <p className="mt-2 text-xs text-green-700">— Helen Keller</p>
+              <p className="mt-2 text-xs text-green-700 dark:text-green-400">
+                — Helen Keller
+              </p>
             </div>
           </aside>
         </div>
