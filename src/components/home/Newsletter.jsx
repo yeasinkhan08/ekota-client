@@ -1,9 +1,10 @@
 "use client";
+
 import { ArrowRight, Mail, HeartHandshake } from "lucide-react";
 
 export default function Newsletter() {
   return (
-    <section className="bg-white px-5 py-20 md:py-24">
+    <section className="bg-white px-5 py-20 transition-colors duration-300 dark:bg-gray-950 md:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="relative overflow-hidden rounded-3xl bg-[#142D23] px-6 py-14 text-white sm:px-12 md:py-16">
           {/* Decorative Background */}
@@ -11,10 +12,12 @@ export default function Newsletter() {
           <div className="pointer-events-none absolute -right-8 -top-16 h-56 w-56 rounded-full border border-white/10" />
 
           <div className="relative z-10 mx-auto max-w-3xl text-center">
+            {/* Icon */}
             <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-green-300">
               <HeartHandshake size={30} />
             </div>
 
+            {/* Heading */}
             <p className="text-sm font-semibold tracking-[0.2em] text-green-300">
               STAY CONNECTED
             </p>

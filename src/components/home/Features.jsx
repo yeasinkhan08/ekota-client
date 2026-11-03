@@ -13,8 +13,8 @@ const features = [
     title: "Discover Events",
     description:
       "Explore meaningful community events and find opportunities to make a difference.",
-    background: "bg-[#F1F5EF]",
-    iconColor: "text-green-800",
+    background: "bg-[#F1F5EF] dark:bg-gray-900",
+    iconColor: "text-green-800 dark:text-green-400",
   },
   {
     number: "02",
@@ -22,8 +22,8 @@ const features = [
     title: "Connect with People",
     description:
       "Meet like-minded people and build meaningful connections through shared experiences.",
-    background: "bg-[#E8F0E8]",
-    iconColor: "text-green-800",
+    background: "bg-[#E8F0E8] dark:bg-gray-800",
+    iconColor: "text-green-800 dark:text-green-400",
   },
   {
     number: "03",
@@ -31,8 +31,8 @@ const features = [
     title: "Join Community",
     description:
       "Take part in local initiatives and work together toward a better community.",
-    background: "bg-[#F1F5EF]",
-    iconColor: "text-green-800",
+    background: "bg-[#F1F5EF] dark:bg-gray-900",
+    iconColor: "text-green-800 dark:text-green-400",
   },
   {
     number: "04",
@@ -40,30 +40,30 @@ const features = [
     title: "Create Impact",
     description:
       "Start your own events, inspire others, and turn small actions into positive change.",
-    background: "bg-[#E8F0E8]",
-    iconColor: "text-green-800",
+    background: "bg-[#E8F0E8] dark:bg-gray-800",
+    iconColor: "text-green-800 dark:text-green-400",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="bg-[#FAF9F6] px-5 py-20 md:py-28">
+    <section className="bg-[#FAF9F6] px-5 py-20 transition-colors duration-300 dark:bg-gray-950 md:py-28">
       <div className="mx-auto max-w-7xl">
         {/* Section Heading */}
         <div className="mx-auto mb-14 max-w-2xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#DCE9DF] px-4 py-2 text-xs font-semibold tracking-widest text-green-900">
-            <span className="h-2 w-2 rounded-full bg-green-700" />
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#DCE9DF] px-4 py-2 text-xs font-semibold tracking-widest text-green-900 dark:bg-green-950 dark:text-green-300">
+            <span className="h-2 w-2 rounded-full bg-green-700 dark:bg-green-400" />
             WHY CHOOSE EKOTA
           </span>
 
-          <h2 className="mt-6 text-3xl font-bold tracking-tight text-[#202923] sm:text-4xl md:text-5xl">
+          <h2 className="mt-6 text-3xl font-bold tracking-tight text-[#202923] dark:text-white sm:text-4xl md:text-5xl">
             One Platform.
-            <span className="block text-green-800">
+            <span className="block text-green-800 dark:text-green-400">
               Many Ways to Make an Impact.
             </span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-xl text-base leading-8 text-gray-600">
+          <p className="mx-auto mt-5 max-w-xl text-base leading-8 text-gray-600 dark:text-gray-300">
             Discover opportunities, connect with people, and take action.
             Everything you need to make your community stronger starts here.
           </p>
@@ -81,11 +81,11 @@ export default function Features() {
               >
                 {/* Number */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold tracking-wider text-green-900/50">
+                  <span className="text-sm font-semibold tracking-wider text-green-900/50 dark:text-green-300/60">
                     {feature.number}
                   </span>
 
-                  <div className="rounded-full bg-white/80 p-2.5 text-green-800 transition-transform duration-300 group-hover:rotate-45">
+                  <div className="rounded-full bg-white/80 p-2.5 text-green-800 transition-transform duration-300 group-hover:rotate-45 dark:bg-gray-700 dark:text-green-300">
                     <ArrowUpRight size={19} />
                   </div>
                 </div>
@@ -97,11 +97,11 @@ export default function Features() {
 
                 {/* Content */}
                 <div className="mt-auto pt-8">
-                  <h3 className="text-xl font-bold tracking-tight text-[#202923]">
+                  <h3 className="text-xl font-bold tracking-tight text-[#202923] dark:text-white">
                     {feature.title}
                   </h3>
 
-                  <p className="mt-3 text-sm leading-7 text-gray-600">
+                  <p className="mt-3 text-sm leading-7 text-gray-600 dark:text-gray-300">
                     {feature.description}
                   </p>
                 </div>
@@ -111,12 +111,12 @@ export default function Features() {
         </div>
 
         {/* Bottom Message */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#E4E8DF] bg-white px-6 py-5 text-center sm:flex-row sm:text-left">
-          <p className="text-sm text-gray-600">
+        <div className="mt-8 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#E4E8DF] bg-white px-6 py-5 text-center transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900 sm:flex-row sm:text-left">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Real change happens when people come together.
           </p>
 
-          <p className="text-sm font-semibold text-green-800">
+          <p className="text-sm font-semibold text-green-800 dark:text-green-400">
             Together, we make a difference.
           </p>
         </div>

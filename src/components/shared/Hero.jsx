@@ -5,21 +5,23 @@ import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
-    <section className="bg-[#FAF9F6]">
+    <section className="bg-[#FAF9F6] dark:bg-gray-950">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:py-24">
         {/* Hero Content */}
         <div>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#DCE9DF] px-4 py-2 text-sm font-medium text-green-900">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#DCE9DF] px-4 py-2 text-sm font-medium text-green-900 dark:bg-green-950 dark:text-green-300">
             <HeartHandshake size={17} />
             Building Stronger Communities
           </div>
 
-          <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-[#202923] sm:text-5xl lg:text-6xl">
+          <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-[#202923] dark:text-white sm:text-5xl lg:text-6xl">
             Small Acts.
-            <span className="block text-green-800">Stronger Communities.</span>
+            <span className="block text-green-800 dark:text-green-400">
+              Stronger Communities.
+            </span>
           </h1>
 
-          <p className="mt-6 max-w-lg text-base leading-8 text-gray-600">
+          <p className="mt-6 max-w-lg text-base leading-8 text-gray-600 dark:text-gray-300">
             Bring people together, support meaningful causes, and create
             positive change. Every small action can make a big difference.
           </p>
@@ -29,7 +31,7 @@ const Hero = () => {
             <Button
               asChild
               size="lg"
-              className="bg-green-800 hover:bg-green-900"
+              className="bg-green-800 text-white hover:bg-green-900 dark:bg-green-600 dark:hover:bg-green-700"
             >
               <Link href="/events">
                 Explore Events
@@ -37,7 +39,12 @@ const Hero = () => {
               </Link>
             </Button>
 
-            <Button asChild size="lg" variant="outline">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
               <Link href="/register">Get Involved</Link>
             </Button>
           </div>
@@ -45,22 +52,32 @@ const Hero = () => {
           {/* Small Statistics */}
           <div className="mt-12 flex flex-wrap gap-8">
             <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-[#DCE9DF] p-3 text-green-800">
+              <div className="rounded-xl bg-[#DCE9DF] p-3 text-green-800 dark:bg-green-950 dark:text-green-400">
                 <Users size={22} />
               </div>
+
               <div>
-                <p className="font-bold text-[#202923]">Community</p>
-                <p className="text-sm text-gray-500">Together we grow</p>
+                <p className="font-bold text-[#202923] dark:text-white">
+                  Community
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Together we grow
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-[#DCE9DF] p-3 text-green-800">
+              <div className="rounded-xl bg-[#DCE9DF] p-3 text-green-800 dark:bg-green-950 dark:text-green-400">
                 <Leaf size={22} />
               </div>
+
               <div>
-                <p className="font-bold text-[#202923]">Positive Impact</p>
-                <p className="text-sm text-gray-500">One action at a time</p>
+                <p className="font-bold text-[#202923] dark:text-white">
+                  Positive Impact
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  One action at a time
+                </p>
               </div>
             </div>
           </div>
@@ -68,7 +85,7 @@ const Hero = () => {
 
         {/* Hero Image */}
         <div className="relative">
-          <div className="absolute -right-4 -top-4 h-32 w-32 rounded-full bg-[#DCE9DF]" />
+          <div className="absolute -right-4 -top-4 h-32 w-32 rounded-full bg-[#DCE9DF] dark:bg-green-950" />
 
           <div className="relative overflow-hidden rounded-3xl shadow-xl">
             <Image
@@ -81,14 +98,20 @@ const Hero = () => {
             />
           </div>
 
-          <div className="absolute -bottom-6 -left-5 rounded-2xl bg-white p-5 shadow-lg">
+          {/* Floating Information Card */}
+          <div className="absolute -bottom-6 -left-5 rounded-2xl bg-white p-5 shadow-lg dark:bg-gray-800">
             <div className="flex items-center gap-3">
-              <div className="rounded-full bg-green-100 p-3 text-green-800">
+              <div className="rounded-full bg-green-100 p-3 text-green-800 dark:bg-green-950 dark:text-green-400">
                 <HeartHandshake size={25} />
               </div>
+
               <div>
-                <p className="font-bold text-[#202923]">Together for Good</p>
-                <p className="text-sm text-gray-500">Make every action count</p>
+                <p className="font-bold text-[#202923] dark:text-white">
+                  Together for Good
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Make every action count
+                </p>
               </div>
             </div>
           </div>

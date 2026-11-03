@@ -41,28 +41,31 @@ const galleryImages = [
 
 export default function Gallery() {
   return (
-    <section className="bg-white px-5 py-20 md:py-28">
+    <section className="bg-white px-5 py-20 transition-colors duration-300 dark:bg-gray-900 md:py-28">
       <div className="mx-auto max-w-7xl">
         {/* Heading */}
         <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#DCE9DF] px-4 py-2 text-xs font-semibold tracking-widest text-green-900">
-              <span className="h-2 w-2 rounded-full bg-green-700" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#DCE9DF] px-4 py-2 text-xs font-semibold tracking-widest text-green-900 dark:bg-green-950 dark:text-green-300">
+              <span className="h-2 w-2 rounded-full bg-green-700 dark:bg-green-400" />
               OUR COMMUNITY
             </span>
 
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#202923] sm:text-4xl md:text-5xl">
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#202923] dark:text-white sm:text-4xl md:text-5xl">
               Moments That
-              <span className="text-green-800"> Matter.</span>
+              <span className="text-green-800 dark:text-green-400">
+                {" "}
+                Matter.
+              </span>
             </h2>
 
-            <p className="mt-4 max-w-xl leading-8 text-gray-600">
+            <p className="mt-4 max-w-xl leading-8 text-gray-600 dark:text-gray-300">
               Every gathering, every helping hand, and every small action
               creates a story worth sharing.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-sm font-semibold text-green-800">
+          <div className="flex items-center gap-2 text-sm font-semibold text-green-800 dark:text-green-400">
             <span>Life at Ekota</span>
             <ArrowUpRight size={18} />
           </div>
@@ -90,6 +93,7 @@ export default function Gallery() {
               {/* Image Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
+              {/* Image Information */}
               <div className="absolute inset-x-0 bottom-0 p-5 text-white">
                 <p className="mb-2 text-xs font-medium uppercase tracking-widest text-white/75">
                   {image.category}
