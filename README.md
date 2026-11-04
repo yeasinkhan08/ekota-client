@@ -10,7 +10,7 @@ Our goal is to make community participation easier and encourage people to work 
 ---
 
 ## ✨ Features
-
+home
 <img width="1872" height="864" alt="home" src="https://github.com/user-attachments/assets/bf0fb44a-8383-4708-815f-f6e426b2b63d" />
 <img width="1064" height="618" alt="Gellary" src="https://github.com/user-attachments/assets/a3ee5d76-ffcb-4bbe-b7e6-70306302e516" />
 <img width="1057" height="777" alt="UpcomingEvent" src="https://github.com/user-attachments/assets/3932ec54-8ad7-4021-af36-78388b7c351d" />
