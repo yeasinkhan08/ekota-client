@@ -1,3 +1,4 @@
+<img width="915" height="833" alt="create Event" src="https://github.com/user-attachments/assets/ffda928b-ca5c-422e-861f-b15f951a50f7" />
 # 🌱 Ekota — Social Development Events Platform
 
 **Small Acts. Stronger Communities.**
@@ -9,6 +10,8 @@ Our goal is to make community participation easier and encourage people to work 
 ---
 
 ## ✨ Features
+<img width="1872" height="864" alt="home" src="https://github.com/user-attachments/assets/bf0fb44a-8383-4708-815f-f6e426b2b63d" />
+
 
 ### Public Features
 
