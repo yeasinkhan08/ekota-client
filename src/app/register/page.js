@@ -65,16 +65,34 @@ export default function RegisterPage() {
   };
 
   // Google registration
+
   const handleGoogleRegister = async () => {
     try {
       setGoogleLoading(true);
 
-      await authClient.signIn.social({
+      const { data, error } = await authClient.signIn.social({
         provider: "google",
         callbackURL: "/",
+        errorCallbackURL: "/register",
       });
+
+      if (error) {
+        console.error("Google registration error:", error);
+
+        toast.error(
+          error.message || "Google registration failed. Please try again.",
+        );
+
+        setGoogleLoading(false);
+        return;
+      }
+
+      // Better Auth handles the Google redirect automatically.
     } catch (error) {
+      console.error("Google registration failed:", error);
+
       toast.error("Google registration failed. Please try again.");
+
       setGoogleLoading(false);
     }
   };

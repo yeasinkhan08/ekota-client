@@ -50,12 +50,27 @@ export default function LoginPage() {
     try {
       setGoogleLoading(true);
 
-      await authClient.signIn.social({
+      const { data, error } = await authClient.signIn.social({
         provider: "google",
         callbackURL: "/",
+        errorCallbackURL: "/login",
       });
+
+      if (error) {
+        console.error("Google login error:", error);
+
+        toast.error(error.message || "Google login failed. Please try again.");
+
+        setGoogleLoading(false);
+        return;
+      }
+
+      // Better Auth handles the Google redirect automatically.
     } catch (error) {
+      console.error("Google login failed:", error);
+
       toast.error("Google login failed. Please try again.");
+
       setGoogleLoading(false);
     }
   };
