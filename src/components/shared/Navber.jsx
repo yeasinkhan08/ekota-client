@@ -22,7 +22,7 @@ import {
 
 import { authClient } from "@/lib/auth-client";
 
-// User avatar with fallback when an image URL is unavailable.
+// Reusable user avatar component
 function UserAvatar({ user, size = "h-9 w-9" }) {
   const [failedSrc, setFailedSrc] = useState("");
 
@@ -33,9 +33,11 @@ function UserAvatar({ user, size = "h-9 w-9" }) {
       <img
         src={user.image}
         alt={user.name || "User profile"}
+        width={40}
+        height={40}
         referrerPolicy="no-referrer"
         onError={() => setFailedSrc(user.image)}
-        className={`${size} rounded-full object-cover`}
+        className={`${size} shrink-0 rounded-full object-cover`}
       />
     );
   }
@@ -55,7 +57,6 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false);
 
   const router = useRouter();
-
   const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
@@ -69,14 +70,14 @@ const Navbar = () => {
 
   const checkingSession = !mounted || isPending;
 
-  // Navigation links
+  // Public navigation links
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Upcoming Events", href: "/events" },
     { name: "About", href: "/about" },
   ];
 
-  // Logged-in user links
+  // Logged-in user navigation links
   const userLinks = [
     {
       name: "My Profile",
@@ -100,13 +101,13 @@ const Navbar = () => {
     },
   ];
 
-  // Close mobile and profile menus
+  // Close all menus
   const closeMenus = () => {
     setIsOpen(false);
     setProfileOpen(false);
   };
 
-  // Toggle theme
+  // Toggle light and dark themes
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
@@ -226,7 +227,7 @@ const Navbar = () => {
                     </div>
                   </div>
 
-                  {/* User Navigation Links */}
+                  {/* User Links */}
                   <div className="p-2">
                     {userLinks.map((link) => {
                       const Icon = link.icon;
@@ -335,6 +336,7 @@ const Navbar = () => {
               {checkingSession ? (
                 <div className="space-y-3">
                   <div className="h-12 animate-pulse rounded-xl bg-gray-100 dark:bg-gray-800" />
+
                   <p className="text-center text-sm text-gray-500 dark:text-gray-400">
                     Checking session...
                   </p>
