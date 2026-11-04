@@ -1,4 +1,4 @@
-<img width="915" height="833" alt="create Event" src="https://github.com/user-attachments/assets/ffda928b-ca5c-422e-861f-b15f951a50f7" />
+
 # 🌱 Ekota — Social Development Events Platform
 
 **Small Acts. Stronger Communities.**
@@ -10,7 +10,19 @@ Our goal is to make community participation easier and encourage people to work 
 ---
 
 ## ✨ Features
+
 <img width="1872" height="864" alt="home" src="https://github.com/user-attachments/assets/bf0fb44a-8383-4708-815f-f6e426b2b63d" />
+<img width="1064" height="618" alt="Gellary" src="https://github.com/user-attachments/assets/a3ee5d76-ffcb-4bbe-b7e6-70306302e516" />
+<img width="1057" height="777" alt="UpcomingEvent" src="https://github.com/user-attachments/assets/3932ec54-8ad7-4021-af36-78388b7c351d" />
+<img width="397" height="662" alt="Register Page" src="https://github.com/user-attachments/assets/2b371a43-4441-4fe8-9713-487f640b26a5" />
+<img width="390" height="482" alt="Login" src="https://github.com/user-attachments/assets/c5d92c4d-f85c-4231-819e-5a813a8b61c9" />
+<img width="942" height="844" alt="manage event" src="https://github.com/user-attachments/assets/ecfc4594-33fa-400d-8166-efef0f19686c" />
+<img width="915" height="833" alt="create Event" src="https://github.com/user-attachments/assets/5da63dd7-b3f5-4dcf-90d2-4b6b3ed7fae3" />
+<img width="669" height="799" alt="Updateprofle" src="https://github.com/user-attachments/assets/2b88b343-aa76-4951-bb49-137b14555f84" />
+<img width="207" height="241" alt="dropdown" src="https://github.com/user-attachments/assets/24975b7e-8b3f-4ac2-95f3-14af944590ec" />
+<img width="942" height="705" alt="join event" src="https://github.com/user-attachments/assets/652f31d6-b07e-4d12-81aa-52300471ac9e" />
+
+
 
 
 ### Public Features
