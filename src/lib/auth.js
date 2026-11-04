@@ -7,12 +7,7 @@ const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("ekota");
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL,
-
-  // Allow both local development and production frontend origins.
-  trustedOrigins: ["http://localhost:3000", "https://ekota-client.vercel.app"],
-
-  database: mongodbAdapter(db),
+  database: mongodbAdapter(db, { client }),
 
   emailAndPassword: {
     enabled: true,

@@ -59,16 +59,16 @@ const Navbar = () => {
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   // Better Auth session
   const { data: session, isPending } = authClient.useSession();
 
   const user = session?.user;
 
   const checkingSession = !mounted || isPending;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Public navigation links
   const navLinks = [

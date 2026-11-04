@@ -72,8 +72,6 @@ export default function RegisterPage() {
 
       const { data, error } = await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
-        errorCallbackURL: "/register",
       });
 
       if (error) {
