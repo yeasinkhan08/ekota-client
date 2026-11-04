@@ -123,6 +123,8 @@ We believe that positive change begins with small actions.
 Ekota brings people together to create opportunities for meaningful participation, community support, and social development.
 
 **Together, we make a difference.**
+
+<br>
 screenshots
 <img width="1872" height="864" alt="home" src="https://github.com/user-attachments/assets/bf0fb44a-8383-4708-815f-f6e426b2b63d" />
 <img width="1064" height="618" alt="Gellary" src="https://github.com/user-attachments/assets/a3ee5d76-ffcb-4bbe-b7e6-70306302e516" />
