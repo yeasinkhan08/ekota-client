@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
+import PageSkeleton from "@/components/shared/PageSkeleton";
 import {
   CalendarDays,
   MapPin,
@@ -12,7 +13,6 @@ import {
   Search,
   CalendarCheck,
   ArrowUpRight,
-  Loader2,
   Image as ImageIcon,
   RefreshCw,
 } from "lucide-react";
@@ -30,22 +30,23 @@ export default function JoinedEventsPage() {
   const [error, setError] = useState("");
 
   // Fetch events joined by the logged-in user
-  const fetchJoinedEvents = async () => {
+  const fetchJoinedEvents = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
 
-      // Get JWT token
-      const { data, error } = await authClient.token();
+      // Step 1: Get JWT token
+      const { data, error: tokenError } = await authClient.token();
 
-      if (error || !data?.token) {
+      if (tokenError || !data?.token) {
         toast.error("Please login to view your joined events.");
-        router.push("/login");
+        router.replace("/login");
         return;
       }
 
-      // Send request to backend
+      // Step 2: Request joined events from Express backend
       const response = await fetch(`${API_URL}/api/events/joined`, {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${data.token}`,
         },
@@ -58,32 +59,43 @@ export default function JoinedEventsPage() {
         throw new Error(result.message || "Failed to fetch joined events.");
       }
 
+      // Step 3: Update events
       setEvents(result.events || []);
     } catch (error) {
       console.error("Joined events error:", error);
+
       setError(error.message || "Something went wrong.");
+
       toast.error(error.message || "Failed to load joined events.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
 
+  // Fetch events when the page loads
   useEffect(() => {
     fetchJoinedEvents();
-  }, []);
+  }, [fetchJoinedEvents]);
 
   // Search events by title
   const filteredEvents = events.filter((event) =>
-    event.title?.toLowerCase().includes(search.toLowerCase()),
+    event.title?.toLowerCase().includes(search.toLowerCase().trim()),
   );
 
-  // Format event date
+  // Format date without timezone shifting
   const formatDate = (date) => {
     if (!date) return "Date not available";
 
     const [year, month, day] = date.split("-").map(Number);
 
-    return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+    const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return "Date not available";
+    }
+
+    return parsedDate.toLocaleDateString("en-US", {
+      timeZone: "UTC",
       day: "numeric",
       month: "short",
       year: "numeric",
@@ -99,6 +111,11 @@ export default function JoinedEventsPage() {
   const upcomingCount = events.filter(
     (event) => event.eventDate && event.eventDate >= today,
   ).length;
+
+  // Show full-page skeleton while fetching data
+  if (loading) {
+    return <PageSkeleton variant="dashboard" />;
+  }
 
   return (
     <main className="min-h-screen bg-[#F7F8FA] px-4 py-10 transition-colors duration-300 dark:bg-gray-950 sm:px-6 lg:px-8">
@@ -199,22 +216,8 @@ export default function JoinedEventsPage() {
           </div>
         </section>
 
-        {/* Loading State */}
-        {loading ? (
-          <div className="flex min-h-64 items-center justify-center">
-            <div className="flex flex-col items-center gap-3">
-              <Loader2
-                size={35}
-                className="animate-spin text-blue-700 dark:text-blue-400"
-              />
-
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Loading your joined events...
-              </p>
-            </div>
-          </div>
-        ) : error ? (
-          /* Error State */
+        {/* Error State */}
+        {error ? (
           <div className="rounded-2xl border border-red-200 bg-white px-5 py-16 text-center dark:border-red-900 dark:bg-gray-900">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">
               Couldn't load your events
@@ -225,6 +228,7 @@ export default function JoinedEventsPage() {
             </p>
 
             <button
+              type="button"
               onClick={fetchJoinedEvents}
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#1E3A5F] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#172F4D]"
             >
@@ -326,6 +330,7 @@ export default function JoinedEventsPage() {
                     </div>
                   </div>
 
+                  {/* Joined Status */}
                   <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-700">
                     <span className="text-sm font-semibold text-green-700 dark:text-green-400">
                       You're participating

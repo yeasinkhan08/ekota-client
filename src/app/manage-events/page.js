@@ -1,5 +1,5 @@
 "use client";
-
+import PageSkeleton from "@/components/shared/PageSkeleton";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -285,17 +285,7 @@ export default function ManageEventsPage() {
 
         {/* Loading */}
         {loading ? (
-          <div className="flex min-h-64 items-center justify-center">
-            <div className="flex flex-col items-center gap-3">
-              <Loader2
-                className="animate-spin text-blue-700 dark:text-blue-400"
-                size={35}
-              />
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Loading your events...
-              </p>
-            </div>
-          </div>
+          <PageSkeleton variant="dashboard" />
         ) : filteredEvents.length === 0 ? (
           /* Empty state */
           <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-5 py-16 text-center dark:border-gray-700 dark:bg-gray-900">
