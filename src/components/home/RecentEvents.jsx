@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import API_URL from "@/lib/api";
@@ -41,35 +41,50 @@ const RecentEvents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch recent upcoming events
-  const fetchEvents = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError("");
+  // Bumping this value re-runs the fetch effect (used by "Try Again")
+  const [reloadKey, setReloadKey] = useState(0);
 
-      const response = await fetch(`${API_URL}/api/events/recent`, {
-        cache: "no-store",
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch events.");
-      }
-
-      setEvents(data.events || []);
-    } catch (error) {
-      console.error("Failed to fetch recent events:", error);
-      setError(error.message || "Something went wrong.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Fetch events when component mounts
+  // Fetch recent upcoming events on mount and whenever reloadKey changes
   useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
+    let ignore = false;
+
+    const loadEvents = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/events/recent`, {
+          cache: "no-store",
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to fetch events.");
+        }
+
+        if (ignore) return;
+        setEvents(data.events || []);
+        setError("");
+      } catch (err) {
+        if (ignore) return;
+        console.error("Failed to fetch recent events:", err);
+        setError(err.message || "Something went wrong.");
+      } finally {
+        if (!ignore) setLoading(false);
+      }
+    };
+
+    loadEvents();
+
+    return () => {
+      ignore = true;
+    };
+  }, [reloadKey]);
+
+  // Retry handler: state resets happen in an event handler, not in the effect
+  const handleRetry = () => {
+    setLoading(true);
+    setError("");
+    setReloadKey((key) => key + 1);
+  };
 
   return (
     <section className="bg-[#FAF9F6] px-5 py-16 transition-colors duration-300 dark:bg-gray-950">
@@ -105,7 +120,7 @@ const RecentEvents = () => {
           /* Error State */
           <div className="rounded-2xl border border-red-200 bg-white px-5 py-12 text-center dark:border-red-900 dark:bg-gray-900">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-              Couldn't load recent events.
+              Couldn&apos;t load recent events.
             </h3>
 
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -114,7 +129,7 @@ const RecentEvents = () => {
 
             <button
               type="button"
-              onClick={fetchEvents}
+              onClick={handleRetry}
               className="mt-5 inline-flex items-center gap-2 rounded-xl bg-green-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-900"
             >
               <RefreshCw size={16} />
